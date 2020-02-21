@@ -1,16 +1,17 @@
 //
 //  TableViewCell.swift
-//  TableView
+//  AppNomIMC
 //
-//  Created by MIGUEL ANGEL JIMENEZ MELENDEZ on 21/02/20.
-//  Copyright © 2020 MIGUEL ANGEL JIMENEZ MELENDEZ. All rights reserved.
+//  Created by Tecnologico Roque on 2/20/20.
+//  Copyright © 2020 Tecnologico Roque. All rights reserved.
 //
 
 import UIKit
 
 class TableViewCell: UITableViewCell {
-    @IBOutlet weak var lbcve: UILabel!
-    @IBOutlet weak var lbNombre: UILabel!
+    @IBOutlet weak var lbnom: UILabel!
+    
+    @IBOutlet weak var lbimc: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -1,19 +1,23 @@
 //
 //  TableViewController.swift
-//  TableView
+//  AppNomIMC
 //
-//  Created by MIGUEL ANGEL JIMENEZ MELENDEZ on 21/02/20.
-//  Copyright © 2020 MIGUEL ANGEL JIMENEZ MELENDEZ. All rights reserved.
+//  Created by Tecnologico Roque on 2/18/20.
+//  Copyright © 2020 Tecnologico Roque. All rights reserved.
 //
 
 import UIKit
 
 class TableViewController: UITableViewController {
-    @IBOutlet var tabla: UITableView!
-    var cliente = [Cliente]()
+    
+    var persona = [Persona]()
+    
+    @IBOutlet var Tabla: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabla.reloadData()
+        Tabla.reloadData()
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -30,18 +34,16 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cliente.count
+        return persona.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "celda") as! TableViewCell
-        let cte : Cliente
-        cte = cliente[indexPath.row]
-        cell.lbcve.text = cte.cvt
-        cell.lbNombre.text = cte.Nombre
-        
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "lista") as! TableViewCell
+        let per : Persona
+        per = persona[indexPath.row]
+        cell.lbnom.text = per.nombre
+        cell.lbimc.text = String(per.imc)
         // Configure the cell...
 
         return cell
@@ -58,7 +60,7 @@ class TableViewController: UITableViewController {
 
     /*
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
