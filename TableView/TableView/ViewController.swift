@@ -7,26 +7,49 @@
 //
 
 import UIKit
+import SQLite3
 
 class ViewController: UIViewController {
     @IBOutlet weak var txtDomicilio: UITextField!
     @IBOutlet weak var txtClave: UITextField!
     @IBOutlet weak var txtNombre: UITextField!
     var cliente = [Cliente]()
+    var db : OpaquePointer? //SQLITE
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //SQLITE
+        let fileUrl = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("DBSQLiteClientes.sqlite")
+        if sqlite3_open(fileUrl.path, &db) != SQLITE_OK {
+            alerta(title: "Error", message: "No se enconntraron los datos")
+            return
+        }
+        let creteTable = "Create Table If Not Exists Cliente(cveCliente Integer Primary Key, nomCliente Text, domCliente Text)"
+        if sqlite3_exec(db, creteTable, nil, nil, nil) != SQLITE_OK {
+            alerta(title: "Exito", message: "Se creo la tabla")
+            return
+        }
         // Do any additional setup after loading the view.
     }
     
     @IBAction func btnAgrega(_ sender: UIButton) {
         if txtClave.text!.isEmpty || txtNombre.text!.isEmpty || txtDomicilio.text!.isEmpty {
-            alerta(title: "No deje campos en blanco", message: "Complete lo que se pide")
+            alerta(title: "No en blanco", message: "Complete lo que se pide")
             txtClave.becomeFirstResponder()
         }else{
-            cliente.append(Cliente(cvt: txtClave.text!, nom: txtNombre.text!,dom: txtDomicilio.text!))
-            txtClave.text = ""
-            txtNombre.text = ""
-            txtDomicilio.text = ""
+            let cve = txtClave.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            let nom = txtNombre.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+            var stmt : OpaquePointer?
+            let sentencia = "Insert into Cliente(cveCliente, nomCliente, domCliente) Values()"
+            if  sqlite3_prepare(db, sentencia, -1, &stmt, nil) != SQLITE_OK {
+                
+            }
+               
+           // cliente.append(Cliente(cvt: txtClave.text!, nom: txtNombre.text!,dom:
+           // txtDomicilio.text!))
+           // txtClave.text = ""
+           // txtNombre.text = ""
+           // txtDomicilio.text = ""
             alerta(title: "Acción exitosa", message: "Se guardaron los datos")
         }
     }
